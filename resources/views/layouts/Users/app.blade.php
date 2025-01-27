@@ -23,6 +23,9 @@
     <!-- bootstrap v5.3.2 -->
     <link rel="stylesheet" href="{{ asset('build/bootstrap/bootstrap.v5.3.2.min.css') }}">
 
+    {{-- toastr --}}
+    <link href="{{ asset('build/toastr/build/toastr.min.css') }}" rel="stylesheet">
+
 </head>
 
 <body class="font-sans antialiased">
@@ -46,6 +49,31 @@
 
     {{-- bootstrap --}}
     <script src="{{ asset('build/bootstrap/bootstrap.v5.3.2.min.js') }}"></script>
+
+    <!-- Toastr JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ asset('build/toastr/build/toastr.min.js') }}"></script>
+
+    <script>
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "500",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+    </script>
+
 </body>
 
 </html>

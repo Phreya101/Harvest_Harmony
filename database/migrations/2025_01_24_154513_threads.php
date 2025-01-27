@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('equipments', function (Blueprint $table) {
+        Schema::create('threads', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // Event type name
+            $table->string('title');        // Make sure this matches the form input
+            $table->integer('category_id'); // Ensure this matches the form data
+            $table->integer('farmers_id');  // This should be the logged-in user's ID
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('equiments');
+        Schema::dropIfExists('threads');
     }
 };

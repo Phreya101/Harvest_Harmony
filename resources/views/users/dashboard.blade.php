@@ -47,7 +47,7 @@
                                 </button>
 
                                 <!-- Create Thread Modal -->
-                                <form method="POST" action="{{ route('login') }}">
+                                <form method="POST" id="createThreadForm">
                                     @csrf
 
                                     <div class="modal modal-lg fade" id="createThread" tabindex="-1"
@@ -70,8 +70,11 @@
                                                         <div class="col-md-7">
                                                             <div class="form-floating mb-3">
                                                                 <input type="text" id="title" placeholder="Title"
-                                                                    class="form-control shadow" required>
-                                                                <label for="title">Title</label>
+                                                                    class="form-control shadow" name="title" required>
+                                                                <label for="title">Title/Questions</label>
+                                                                @error('title')
+                                                                    <p style="color: red;">{{ $message }}</p>
+                                                                @enderror
                                                             </div>
 
                                                         </div>
@@ -79,8 +82,7 @@
                                                         <div class="col-md-5">
                                                             <div class="form-floating mb-3">
                                                                 <select id="category" class="form-select mb-3 shadow"
-                                                                    aria-label="Large select example" name="category"
-                                                                    id="category" required>
+                                                                    aria-label="Large select example" name="category" required>
 
                                                                     <option selected disabled></option>
 
@@ -96,27 +98,23 @@
 
                                                                 </select>
                                                                 <label for="category">Select Category</label>
+                                                                @error('category')
+                                                                    <p style="color: red;">{{ $message }}</p>
+                                                                @enderror
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <div class="form-floating mb-3">
-                                                                <input type="text" id="description" placeholder="Description"
-                                                                    class="form-control shadow" required>
-                                                                <label for="description">Description/Question</label>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
+                                                    <input type="hidden" name="farmers_id" value="{{ auth()->id() }}">
+                                                    @error('farmers_id')
+                                                        <p style="color: red;">{{ $message }}</p>
+                                                    @enderror
 
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary"
                                                         data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary">Create</button>
+                                                    <button type="submit" class="btn btn-primary">Create</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -187,5 +185,40 @@
 
 
         </div>
+
+
+        {{-- creating thread via ajax --}}
+        <script>
+            document.getElementById('createThreadForm').addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent the default form submission behavior
+
+                // Get the form element
+                let form = document.getElementById('createThreadForm');
+
+                // Create a FormData object from the form
+                let formData = new FormData(form);
+
+                // Send the form data via AJAX
+                fetch('/users/createThreads', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}', // Include CSRF token
+                        },
+                        body: formData, // Form data will automatically be handled as multipart/form-data
+                    })
+                    .then(response => response.json()) // Process the JSON response
+                    .then(data => {
+                        if (data.status === 'success') {
+                            toastr.success('Thread created successfully!');
+                            setTimeout(() => {
+                                window.location.reload(); // Reload the page after success
+                            }, 700); // Adjust the delay if necessary (2 seconds here)
+                        } else {
+                            toastr.error('Failed to create thread');
+                        }
+                    })
+                    .catch(error => console.log('Error:', error));
+            });
+        </script>
     @endsection
 @endcan

@@ -9,8 +9,6 @@ class CategoryGroup extends Model
 {
     use HasFactory;
 
-    use HasFactory;
-
     protected $table = 'category_group';
 
     public function categories()

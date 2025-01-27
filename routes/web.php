@@ -10,7 +10,7 @@ use App\Admin\Models\Equipments;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Users\categoryController;
 use App\Http\Controllers\Users\dashboardController;
-use App\Http\Controllers\Users\threadController;
+use App\Http\Controllers\Users\ThreadController;
 use App\Models\Users\CategoryGroup;
 
 /*
@@ -39,7 +39,7 @@ Route::get('/', function () {
 
 
 // redirects to specific dashboard based on the role of the user 
-Route::get('/dashboard', [DashboardController::class, 'index'])
+Route::match(['get', 'post'], '/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
@@ -79,11 +79,12 @@ Route::namespace('App\Http\Controllers\Users')->prefix('users')->name('users.')-
     Route::resource('/feedback', 'CTRLFeedbacks', ['except' => ['update', 'edit', 'destroy']]);
     Route::get('/myfeedbacks', 'CTRLFeedbacks@myfeedback')->name('myfeedback');
 
-    // Thread
-    Route::get('/viewThread', [threadController::class, 'viewThread']);
-
     //Forum Category
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    //Thread
+    Route::get('/viewThread', [ThreadController::class, 'index']);
+    Route::post('/createThreads', [ThreadController::class, 'store'])->middleware('auth');
 });
 
 
