@@ -34,8 +34,15 @@
                 <div class="card me-5 shadow">
                     <div class="card-header bg-white py-3 px-3">
                         <div class="row">
-                            <div class="col-md-9">
+                            <div class="col-md-3">
                                 <div class="fw-bold fs-4"><i class="fa-brands fa-forumbee text-primary me-2"></i> Forum</div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <input type="text" id="searchInput" class="form-control d-inline-block w-75"
+                                    placeholder="Search threads..." />
+                                <button id="searchButton" class="btn border-primary ms-2"><i
+                                        class="fa-solid fa-magnifying-glass text-primary"></i></button>
                             </div>
 
                             <div class="col-md-3 text-right">
@@ -125,56 +132,50 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body" id="threadsList" style="max-height: 500px; overflow-y: auto;">
 
-                        <a href="users/viewThread" class="card-link text-dark text-decoration-none">
-                            <h5 class="card-title">Farming Forum: Equipment Ripper</h5>
-                            <p class="card-text">Discussion about the equipment ripper and its benefits for modern farming
-                                techniques.</p>
-                            <p class="card-text text-right"><small class="text-muted">Posted on: <span
-                                        class="date-posted">[Date]</span> by
-                                    <span class="author">[Author]</span></small></p>
+                        @foreach ($threads as $thread)
+                            @php
+                                $count = $thread->comment->count();
+                            @endphp
+                            <a href="{{ url('users/viewThread/' . $thread->id) }}"
+                                class="card-link text-dark text-decoration-none">
 
-                        </a>
+                                <div class="row">
+                                    <div class="col-sm-10">
+                                        <h5 class="card-title">
+                                            {{ $thread->category->name ?? 'N/A' }}
+                                        </h5>
+                                    </div>
 
-                        <div class="separator" style="border-top: 1px solid #ddd; margin: 20px 0;"></div>
+                                    <div class="col-sm-2">
+                                        <h6 class="float-end"><i class="fa-solid fa-comment-dots text-success"></i>
+                                            <span class="badge text-bg-info">{{ $count ?? 0 }}</span>
+                                        </h6>
+                                    </div>
+                                </div>
 
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="card-text">
+                                            {{ $thread->title }}
+                                        </p>
+                                    </div>
+                                </div>
 
-                        <a href="[Your URL]" class="card-link text-dark text-decoration-none">
-                            <h5 class="card-title">Farming Forum: Tractor Innovations</h5>
-                            <p class="card-text">Explore the latest innovations in tractor technology for sustainable
-                                farming.</p>
-                            <p class="card-text text-right"><small class="text-muted">Posted on: <span
-                                        class="date-posted">[Date]</span> by
-                                    <span class="author">[Author]</span></small>
-                            </p>
-                        </a>
-
-                        <div class="separator" style="border-top: 1px solid #ddd; margin: 20px 0;"></div>
-
-                        <a href="[Your URL]" class="card-link text-dark text-decoration-none">
-                            <h5 class="card-title">Farming Forum: Soil Health Practices</h5>
-                            <p class="card-text">Learn about the best practices for maintaining healthy soil on your farm.
-                            </p>
-                            <p class="card-text text-right"><small class="text-muted">Posted on: <span
-                                        class="date-posted">[Date]</span> by
-                                    <span class="author">[Author]</span></small>
-                            </p>
-                        </a>
-
-                        <div class="separator" style="border-top: 1px solid #ddd; margin: 20px 0;"></div>
-
-                        <a href="[Your URL]" class="card-link text-dark text-decoration-none">
-                            <h5 class="card-title">Farming Forum: Irrigation Solutions</h5>
-                            <p class="card-text">A discussion on effective irrigation techniques for water conservation in
-                                farming.</p>
-                            <p class="card-text text-right"><small class="text-muted">Posted on: <span
-                                        class="date-posted">[Date]</span> by
-                                    <span class="author">[Author]</span></small>
-                            </p>
-                        </a>
-
-                        <div class="separator" style="border-top: 1px solid #ddd; margin: 20px 0;"></div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="card-text text-right">
+                                            <small class="text-muted">Posted on:
+                                                <span class="date-posted">{{ $thread->created_at->format('F d, Y') }}</span>
+                                                by <span class="author">{{ $thread->user->name ?? 'Unknown' }}</span>
+                                            </small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="separator" style="border-top: 1px solid #ddd; margin: 20px 0;"></div>
+                        @endforeach
 
                     </div>
                 </div>
@@ -218,6 +219,54 @@
                         }
                     })
                     .catch(error => console.log('Error:', error));
+            });
+        </script>
+
+
+
+        <script>
+            document.getElementById('searchButton').addEventListener('click', function() {
+                let searchQuery = document.getElementById('searchInput').value;
+
+                // Send an AJAX request to the server with the search query
+                fetch(`/users/searchThreads?query=${searchQuery}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        // Get the filtered threads and update the threads list
+                        let threadsList = document.getElementById('threadsList');
+                        threadsList.innerHTML = '';
+
+                        data.threads.forEach(thread => {
+                            threadsList.innerHTML += `
+                        <a href="/users/viewThread/${thread.id}" class="card-link text-dark text-decoration-none">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <h5 class="card-title">${thread.category.name ?? 'N/A'}</h5>
+                                </div>
+                                <div class="col-sm-2">
+                                    <h6 class="float-end"><i class="fa-solid fa-comment-dots text-success"></i>
+                                        <span class="badge text-bg-info">${thread.comment_count}</span>
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="card-text">${thread.title}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="card-text text-right">
+                                        <small class="text-muted">Posted on: ${thread.created_at} by ${thread.user.name ?? 'Unknown'}</small>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="separator" style="border-top: 1px solid #ddd; margin: 20px 0;"></div>
+                    `;
+                        });
+                    })
+                    .catch(error => console.error('Error:', error));
             });
         </script>
     @endsection

@@ -17,4 +17,24 @@ class Thread extends Model
         'category_id',
         'farmers_id',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'farmers_id'); // Relationship to users table
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id'); // Relationship to categories table
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function reply()
+    {
+        return $this->hasMany(Replies::class);
+    }
 }

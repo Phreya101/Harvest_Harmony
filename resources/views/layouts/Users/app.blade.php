@@ -26,6 +26,9 @@
     {{-- toastr --}}
     <link href="{{ asset('build/toastr/build/toastr.min.css') }}" rel="stylesheet">
 
+    {{-- JQuery --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body class="font-sans antialiased">
@@ -47,11 +50,16 @@
         </main>
     </div>
 
+    {{-- SweetAlert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
     {{-- bootstrap --}}
+    <script src="{{ asset('build/bootstrap/popper.min.js') }}"></script>
     <script src="{{ asset('build/bootstrap/bootstrap.v5.3.2.min.js') }}"></script>
 
+
     <!-- Toastr JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{{ asset('build/toastr/build/toastr.min.js') }}"></script>
 
     <script>
@@ -73,6 +81,8 @@
             "hideMethod": "fadeOut"
         }
     </script>
+
+
 
 </body>
 

@@ -9,7 +9,9 @@ use App\Http\Controllers\Users\CTRLFeedbacks;
 use App\Admin\Models\Equipments;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Users\categoryController;
+use App\Http\Controllers\Users\CommentsController;
 use App\Http\Controllers\Users\dashboardController;
+use App\Http\Controllers\Users\ReplyController;
 use App\Http\Controllers\Users\ThreadController;
 use App\Models\Users\CategoryGroup;
 
@@ -83,8 +85,22 @@ Route::namespace('App\Http\Controllers\Users')->prefix('users')->name('users.')-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     //Thread
-    Route::get('/viewThread', [ThreadController::class, 'index']);
+    Route::match(['get', 'post'], '/viewThread/{id}', [ThreadController::class, 'index'])->middleware('auth');
     Route::post('/createThreads', [ThreadController::class, 'store'])->middleware('auth');
+    Route::get('/displayThread', [ThreadController::class, 'displayThread']);
+    Route::post('/updateThread/{id}', [ThreadController::class, 'update'])->middleware('auth');
+    Route::delete('/deleteThread/{id}', [ThreadController::class, 'delete'])->middleware('auth');
+    Route::get('/searchThreads', [ThreadController::class, 'search'])->name('searchThreads');
+
+    //Comment
+    Route::post('/addComment', [CommentsController::class, 'store']);
+    Route::post('/updateComment/{id}', [CommentsController::class, 'update']);
+    Route::delete('/deleteComment/{id}', [CommentsController::class, 'delete']);
+
+    //Replies
+    Route::post('/addReply', [ReplyController::class, 'store']);
+    Route::post('/updateReply/{id}', [ReplyController::class, 'update']);
+    Route::delete('/deleteReply/{id}', [ReplyController::class, 'delete']);
 });
 
 
