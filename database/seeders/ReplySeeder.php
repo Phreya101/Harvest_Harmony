@@ -41,7 +41,7 @@ class ReplySeeder extends Seeder
             $replies[] = [
                 'reply' => $sampleReplies[array_rand($sampleReplies)], // Pick a random reply
                 'comment_id' => rand(1, 50), // Random comment ID between 1 and 50
-                'farmers_id' => [1, 3][array_rand([1, 3])], // Randomly assign farmer ID 1 or 3
+                'farmers_id' => [1, 2, 3][array_rand([1, 2, 3])], // Randomly assign farmer ID 1, 2, or 3
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

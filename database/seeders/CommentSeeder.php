@@ -23,11 +23,11 @@ class CommentSeeder extends Seeder
             "Great insights!",
         ];
 
-        for ($i = 1; $i <= 50; $i++) { // Generate 50 random comments
+        for ($i = 1; $i <= 100; $i++) { // Generate 50 random comments
             DB::table('comments')->insert([
                 'comment' => $comments[array_rand($comments)], // Random comment
                 'thread_id' => rand(1, 49), // Random thread ID (1-49)
-                'farmers_id' => rand(0, 1) ? 1 : 3, // Randomly assign user 1 or 3
+                'farmers_id' => [1, 2, 3][array_rand([1, 2, 3])], // Randomly assign user 1 or 3
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

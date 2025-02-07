@@ -34,18 +34,18 @@
                 <div class="card me-5 shadow">
                     <div class="card-header bg-white py-3 px-3">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-sm-4 col-md-3 col-lg-3">
                                 <div class="fw-bold fs-4"><i class="fa-brands fa-forumbee text-primary me-2"></i> Forum</div>
                             </div>
 
-                            <div class="col-sm-6">
+                            <div class="col-sm-7 col-md-6 col-lg-6">
                                 <input type="text" id="searchInput" class="form-control d-inline-block w-75"
                                     placeholder="Search threads..." />
                                 <button id="searchButton" class="btn border-primary ms-2"><i
                                         class="fa-solid fa-magnifying-glass text-primary"></i></button>
                             </div>
 
-                            <div class="col-md-3 text-right">
+                            <div class="col-sm-6 col-md-3 col-lg-3 text-right">
                                 <!-- Create Thread Button trigger modal -->
                                 <button type="button" class="btn btn-primary ms-auto" data-bs-toggle="modal"
                                     data-bs-target="#createThread">

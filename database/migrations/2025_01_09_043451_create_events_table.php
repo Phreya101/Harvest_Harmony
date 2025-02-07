@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->foreignId('equipment_id')->constrained('equipments'); // Assuming you have an equipments table
-            $table->foreignId('farmer_id')->constrained('users'); // Assuming farmers are users
+            $table->foreignId('equipment_id'); // Assuming you have an equipments table
+            $table->foreignId('farmer_id'); // Assuming farmers are users
             $table->timestamps();
         });
     }

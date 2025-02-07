@@ -66,7 +66,7 @@ class ThreadsTableSeeder extends Seeder
             DB::table('threads')->insert([
                 'title' => $titles[$i], // Access title directly by index
                 'category_id' => rand(1, 25),
-                'farmers_id' => (rand(0, 1) == 0) ? 1 : 3, // Randomly pick between 1 and 3
+                'farmers_id' => [1, 2, 3][array_rand([1, 2, 3])],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);

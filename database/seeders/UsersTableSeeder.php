@@ -2,15 +2,11 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\support\facades\Hash;
-
-use App\Models\Role;
-use App\Models\User;
-
-use DB;
-use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -19,52 +15,43 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-
-        // this will remove the record from the table when performing seeder 
-        User::truncate();
-        FacadesDB::table('role_user')->truncate();
-
-        // ths will get the roles from the role table 
-        $adminRole = Role::Where('name', 'admin')->first();
-        $userRole = Role::Where('name', 'user')->first();
-
-
-        // this will define the users credentials and adds to the table users 
-        $admin = User::create([
-            'name' => 'Admin User',
-            'email' => 'admin@mail.com',
-            'password' => Hash::make('admin')
+        DB::table('users')->insert([
+            [
+                'name' => 'Juan Dela Cruz',
+                'address' => '123 Sampaguita St., Manila, Philippines',
+                'number' => '09123456789',
+                'email' => 'juan.delacruz@example.com',
+                'password' => Hash::make('password123'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Maria Santos',
+                'address' => '456 Rizal Ave., Quezon City, Philippines',
+                'number' => '09234567890',
+                'email' => 'maria.santos@example.com',
+                'password' => Hash::make('password123'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Pedro Ramos',
+                'address' => '789 Mabini St., Cebu City, Philippines',
+                'number' => '09345678901',
+                'email' => 'pedro.ramos@example.com',
+                'password' => Hash::make('password123'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ],
+            [
+                'name' => 'Ana Reyes',
+                'address' => '101 Bonifacio St., Davao City, Philippines',
+                'number' => '09456789012',
+                'email' => 'ana.reyes@example.com',
+                'password' => Hash::make('password123'),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]
         ]);
-
-
-
-        $user = User::create([
-            'name' => 'User',
-            'email' => 'user@mail.com',
-            'password' => Hash::make('user')
-        ]);
-
-
-
-        $x = 0;
-        foreach (range(1, 5) as $index) {
-            $x++;
-            $user1 = User::create([
-                'name' => 'User' . $x,
-                'email' => 'user' . $x . '@mail.com',
-                'password' => Hash::make('user')
-            ]);
-
-            $user1->roles()->attach($userRole);
-        }
-
-
-
-
-        // this will attach the roles to the user account 
-        $admin->roles()->attach($adminRole);
-        // $admin1->roles()->attach($adminRole);
-
-        $user->roles()->attach($userRole);
     }
 }
