@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin\Schedule;
-
+use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
@@ -16,6 +16,12 @@ class ScheduleController extends Controller
 
     public function saveEvent(Request $request)
     {
+
+        // $request->merge([
+        //     'start_date' => Carbon::parse($request->start_date)->setTimezone('Asia/Manila'),
+        //     'end_date' => Carbon::parse($request->end_date)->setTimezone('Asia/Manila'),
+        // ]);
+
         // Validate the incoming request
         $validated = $request->validate([
             'start_date' => 'required|date',
@@ -60,8 +66,8 @@ class ScheduleController extends Controller
             ->map(function ($event) {
                 return [
                     'id' => $event->id,
-                    'start_date' => $event->start_date,  // This is assumed to be in the correct format
-                    'end_date' => $event->end_date,      // This is assumed to be in the correct format
+                    'start_date' => Carbon::parse($event->start_date)->setTimezone('Asia/Manila')->toDateTimeString(),  // This is assumed to be in the correct format
+                    'end_date' => Carbon::parse($event->end_date)->setTimezone('Asia/Manila')->toDateTimeString(),     // This is assumed to be in the correct format
                     'equipment_id' => $event->equipment_id,
                     'equipment_name' => $event->equipment->name,  // Fetch the equipment name
                     'farmer_id' => $event->farmer_id,

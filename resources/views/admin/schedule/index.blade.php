@@ -7,7 +7,50 @@
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
 
-                        <h5>Equipment Schedule</h5>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <h5>Equipment Scheduler</h5>
+                            </div>
+
+                            <div class="col-sm-6">
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    <i class="fa-solid fa-print me-2"></i> Generate Report
+                                </button>
+
+                                <form action="{{ route('admin.generated::XAJmeoZtgJv9mL8Y') }}" method="GET">
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Generate PDF</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+
+                                                    @csrf
+                                                    <label for="date">From:</label>
+                                                    <input type="text" id="dateFrom" name="from" class="form-control">
+
+                                                    <label for="date">To:</label>
+                                                    <input type="text" id="dateTo" name="to" class="form-control">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Generate</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
 
                         <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
                             <div class="dhx_cal_navline">
@@ -22,6 +65,20 @@
                             <div class="dhx_cal_header"></div>
                             <div class="dhx_cal_data"></div>
                         </div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                flatpickr("#dateFrom", {
+                                    enableTime: false, // Set to true if you need time selection
+                                    dateFormat: "Y-m-d", // Adjust the format as needed
+                                });
+
+                                flatpickr("#dateTo", {
+                                    enableTime: false, // Set to true if you need time selection
+                                    dateFormat: "Y-m-d", // Adjust the format as needed
+                                });
+                            });
+                        </script>
 
                         <script type="text/javascript">
                             scheduler.serverList("equipments", []);
@@ -72,8 +129,6 @@
                                 return "Farmer: " + event.farmer_name + "<br>Equipment: " + event.equipment_name;
                             };
                             scheduler.config.drag_resize = false;
-                            scheduler.config.server_utc = true; // This makes sure the server time zone is used
-                            scheduler.config.time_zone = "Asia/Manila";
                             scheduler.config.date_format = "%Y-%m-%d %H:%i:%s";
                             scheduler.config.drag_move = false;
                             scheduler.init("scheduler_here", new Date(), "week");

@@ -26,6 +26,12 @@
     {{-- toastr --}}
     <link href="{{ asset('build/toastr/build/toastr.min.css') }}" rel="stylesheet">
 
+    {{-- Fontawesome --}}
+    <script src="https://kit.fontawesome.com/bace51c485.js" crossorigin="anonymous"></script>
+
+    {{-- flatpickr --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 
 
 </head>
@@ -81,6 +87,8 @@
         }
     </script>
 
+    {{-- flatpickr --}}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 </body>
 

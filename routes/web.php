@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AnnouncementController;
 use App\Http\Controllers\Admin\ScheduleController;
 use App\Http\Controllers\Users\CTRLFeedbacks;
 use App\Admin\Models\Equipments;
+use App\Http\Controllers\admin\PDFController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Users\categoryController;
 use App\Http\Controllers\Users\CommentsController;
@@ -71,6 +72,8 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::post('/save-event', [ScheduleController::class, 'saveEvent'])->middleware('auth');
 
     Route::delete('/delete-event/{id}', [ScheduleController::class, 'deleteEvent']);
+
+    Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
 });
 
 
