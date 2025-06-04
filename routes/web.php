@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\admin\dashboard;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\AnnouncementController;
@@ -73,7 +74,11 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
 
     Route::delete('/delete-event/{id}', [ScheduleController::class, 'deleteEvent']);
 
-    Route::get('/generate-pdf', [PDFController::class, 'generatePDF']);
+    Route::get('/generate-pdf', [PDFController::class, 'generatePDF'])->name('admin.generatePDF');;
+
+    Route::delete('/deleteThread/{id}', [ThreadController::class, 'delete'])->middleware('auth');
+
+    Route::put('/EditUser/{id}', [UserController::class, 'update'])->name('admin.editUser');
 });
 
 

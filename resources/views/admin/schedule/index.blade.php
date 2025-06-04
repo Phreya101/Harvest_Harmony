@@ -20,7 +20,7 @@
                                     <i class="fa-solid fa-print me-2"></i> Generate Report
                                 </button>
 
-                                <form action="{{ route('admin.generated::zPjNJnzit6ao2fPb') }}" method="GET">
+                                <form action="{{ route('admin.admin.generatePDF') }}" method="GET">
                                     <!-- Modal -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                                         aria-hidden="true">

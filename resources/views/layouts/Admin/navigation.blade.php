@@ -7,7 +7,7 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
                         {{--  <x-application-logo class="block h-9 w-auto fill-current text-gray-800" /> --}}
-                        <img src="{{ asset('image/logo.jpg') }}" alt="Example Image">
+                        <img src="{{ asset('image/logo.png') }}" alt="AgriConnect logo" style="width: 50px; height: 50px;">
 
                     </a>
                 </div>

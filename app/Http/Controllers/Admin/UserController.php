@@ -11,12 +11,15 @@ use Illuminate\View\View;
 
 use Gate;
 use DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
+use Illuminate\Support\Facades\Gate as FacadesGate;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
 
 
-    public function __contruct()
+    public function __construct()
     {
         $this->middleware('auth');
     }
@@ -28,18 +31,18 @@ class UserController extends Controller
     public function index()
     {
         // denies the gate if 
-        if (Gate::denies('admin-access')) {
+        if (FacadesGate::denies('admin-access')) {
             return redirect('errors.403');
         }
 
-        $allusers = User::where('id', '>=', '3')->paginate(10); // get only records that start with id 3 and below
+        $users = User::where('id', '>=', '1'); // get only records that start with id 3 and below
         // query using model eloquent 
 
 
 
 
         return view('admin.users.index')
-            ->with('allusers', $allusers);
+            ->with('users', $users);
     }
 
     /**
@@ -81,10 +84,36 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'userName' => 'required|string|max:255',
+            'userAddress' => 'nullable|string|max:255',
+            'userNumber' => 'nullable|string|max:20',
+            'userEmail' => 'required|email|max:255',
+            'userPassword' => 'nullable|string|min:6',
+        ]);
+
+        $user = User::findOrFail($id);
+
+        $user->name = $request->userName;
+        $user->address = $request->userAddress;
+        $user->number = $request->userNumber;
+        $user->email = $request->userEmail;
+
+        // Only update password if not empty
+        if ($request->filled('userPassword')) {
+            $user->password = Hash::make($request->userPassword);
+        }
+
+        $user->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User updated successfully.'
+        ]);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -98,7 +127,7 @@ class UserController extends Controller
     // new function added for viewing all user feedbacks 
     public function userfeedback()
     {
-        $allfeedbacks = DB::table('feedbacks')
+        $allfeedbacks = FacadesDB::table('feedbacks')
 
             ->select('*')
             ->paginate(10);

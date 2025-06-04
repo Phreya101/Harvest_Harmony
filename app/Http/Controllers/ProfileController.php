@@ -18,19 +18,16 @@ class ProfileController extends Controller
     {
 
 
-        if(Auth::user()->roles[0]->name == "user")
-    {
-        return view('user-profile.edit', [
-            'user' => $request->user(),
-        ]);
-    }
-    else 
-    {
-        
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
-    }
+        if (Auth::user()->roles[0]->name == "user") {
+            return view('user-profile.edit', [
+                'user' => $request->user()
+            ]);
+        } else {
+
+            return view('profile.edit', [
+                'user' => $request->user(),
+            ]);
+        }
     }
 
     /**

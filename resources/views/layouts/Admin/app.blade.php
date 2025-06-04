@@ -16,6 +16,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <!-- bootstrap v5.3.2 -->
     <link rel="stylesheet" href="{{ asset('build/bootstrap/bootstrap.v5.3.2.min.css') }}">
 
@@ -89,6 +92,11 @@
 
     {{-- flatpickr --}}
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    {{-- sweet_alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 
 </body>
 
