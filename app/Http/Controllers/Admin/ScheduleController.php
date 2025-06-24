@@ -11,7 +11,8 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        return view('admin.schedule.index');  // Make sure this view exists
+        $pendingAppointments = \App\Models\Appointment::where('status', 'pending')->get();
+        return view('admin.schedule.index', compact('pendingAppointments'));  // Make sure this view exists
     }
 
     public function saveEvent(Request $request)

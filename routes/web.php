@@ -83,6 +83,11 @@ Route::namespace('App\Http\Controllers\Admin')->prefix('admin')->name('admin.')-
     Route::delete('/deleteThread/{id}', [ThreadController::class, 'delete'])->middleware('auth');
 
     Route::put('/EditUser/{id}', [UserController::class, 'update'])->name('admin.editUser');
+
+    Route::get('/appointments/schedule', [scheduler::class, 'getAppointmentList']);
+    Route::get('/appointments/list', [scheduler::class, 'getAppointmentDetails']);
+    Route::post('/appointments/{id}/accept', [scheduler::class, 'accept'])->name('appointments.accept');
+    Route::post('/appointments/{id}/reject', [scheduler::class, 'reject'])->name('appointments.reject');
 });
 
 

@@ -15,9 +15,16 @@
                             <div class="col-sm-6">
 
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                <button type="button" class="btn btn-primary float-end ms-2" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">
                                     <i class="fa-solid fa-print me-2"></i> Generate Report
+                                </button>
+
+
+
+                                <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
+                                    data-bs-target="#request">
+                                    <i class="fa-solid fa-bell"></i> Request
                                 </button>
 
                                 <form action="{{ route('admin.admin.generatePDF') }}" method="GET">
@@ -49,11 +56,54 @@
                                         </div>
                                     </div>
                                 </form>
+
+                                <div class="modal fade" id="request" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-scrollable">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Request</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @forelse($pendingAppointments as $appointment)
+                                                    <div class="border rounded p-3 mb-3">
+                                                        <p><strong>Name:</strong> {{ $appointment->name }}</p>
+                                                        <p><strong>Contact:</strong> {{ $appointment->contact }}</p>
+                                                        <p><strong>Date:</strong>
+                                                            {{ \Carbon\Carbon::parse($appointment->date)->format('F j, Y') }}
+                                                        </p>
+
+                                                        <div class="d-flex gap-2">
+                                                            <form method="POST"
+                                                                action="{{ route('admin.appointments.accept', $appointment->id) }}">
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="btn btn-success btn-sm">Accept</button>
+                                                            </form>
+
+                                                            <form method="POST"
+                                                                action="{{ route('admin.appointments.reject', $appointment->id) }}">
+                                                                @csrf
+                                                                <button type="submit"
+                                                                    class="btn btn-danger btn-sm">Reject</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                @empty
+                                                    <p>No pending schedule.</p>
+                                                @endforelse
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
-                        <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
-                            <div class="dhx_cal_navline">
+                        <div id="calendar" class="dhx_cal_container" style='width:100%; height:100%; margin-top: 5px;'>
+                            {{-- <div class="dhx_cal_navline">
                                 <div class="dhx_cal_prev_button">&nbsp;</div>
                                 <div class="dhx_cal_next_button">&nbsp;</div>
                                 <div class="dhx_cal_today_button"></div>
@@ -63,10 +113,16 @@
                                 <div class="dhx_cal_tab" name="month_tab"></div>
                             </div>
                             <div class="dhx_cal_header"></div>
-                            <div class="dhx_cal_data"></div>
+                            <div class="dhx_cal_data"></div> --}}
                         </div>
 
-                        <script>
+
+
+                        <div id="calendar"></div>
+
+
+
+                        {{-- <script>
                             document.addEventListener("DOMContentLoaded", function() {
                                 flatpickr("#dateFrom", {
                                     enableTime: false, // Set to true if you need time selection
@@ -213,15 +269,13 @@
                                 // Return false to prevent the default action until the request is complete
                                 return false;
                             });
-                        </script>
+                        </script> --}}
                     </div>
                 </div>
             </div>
         </div>
     @endsection
 @endcan
-
-
 </body>
 
 </html>

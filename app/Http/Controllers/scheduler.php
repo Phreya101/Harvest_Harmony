@@ -60,4 +60,47 @@ class scheduler extends Controller
 
         return response()->json($events);
     }
+
+    public function getAppointmentList()
+    {
+        $appointments = \App\Models\Appointment::where('status', 'accepted')->get();
+
+        $events = [];
+
+        foreach ($appointments as $appt) {
+            $events[] = [
+                'id'    => $appt->id,              // handy for eventClick / editing
+                'title' => $appt->name,            // NAME shows up on the calendar
+                'start' => $appt->date,            // adjust if you store a datetime
+                'allDay' => true,                  // true if you don’t store time
+                // send extra data down in extendedProps
+                'extendedProps' => [
+                    'contact' => $appt->contact,
+                    'status'  => $appt->status,
+                ],
+                // optional class if you still want per-event styling
+                'classNames' => ['fc-booking'],
+            ];
+        }
+
+        return response()->json($events);
+    }
+
+    public function accept($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        $appointment->status = 'accepted';
+        $appointment->save();
+
+        return back()->with('success', 'Appointment accepted!');
+    }
+
+    public function reject($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        $appointment->status = 'rejected';
+        $appointment->save();
+
+        return back()->with('success', 'Appointment rejected!');
+    }
 }
