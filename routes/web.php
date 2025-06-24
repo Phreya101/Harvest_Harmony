@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\scheduler;
 use App\Models\admin\dashboard;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/new-scheduler', [scheduler::class, 'index'])->name('scheduler');
+route::post('scheduler/add', [scheduler::class, 'store']);
+Route::get('/appointments/events', [scheduler::class, 'getAppointmentCounts']);
 
 // redirects to specific dashboard based on the role of the user 
 Route::match(['get', 'post'], '/dashboard', [DashboardController::class, 'index'])
